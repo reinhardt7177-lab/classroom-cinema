@@ -34,6 +34,8 @@ def check_materials(films, activities):
             activity = activities[key]
             for label in (film["title"], activity["output"], *activity["labels"], activity["check"], *film["codes"]):
                 assert "".join(label.split()) in text, (key, label)
+            if activity.get("reading"):
+                assert "".join(activity["reading"].split()) in text, key
 
 
 def check_classroom():
@@ -47,6 +49,9 @@ def check_classroom():
         expect(cards).to_have_count(143)
         films, activities = page.evaluate("[films, worksheetActivities]")
         check_materials(films, activities)
+        assert activities["piper"]["format"] == "comic4" and len(activities["piper"]["labels"]) == 4
+        assert "첫걸음" in activities["piper"]["output"]
+        assert activities["walle"]["reading"] and "다짐" in activities["walle"]["labels"][-1]
         sheet = browser.new_page()
         examples = {activity["format"]: key for key, activity in activities.items()}
         for key in examples.values():

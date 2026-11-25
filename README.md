@@ -11,4 +11,6 @@
 
 ## 학습지 갱신
 
+학생이 영화를 보고 자기 자리에서 연필로 한 장을 완성할 수 있게 문항을 작성합니다. 비교할 글이나 관찰 자료가 필요하면 `worksheetActivities`의 `reading`에 본문을 넣습니다. 네 컷 만화에는 장면별 답칸 네 개를, 포스터에는 그림을 크게 그릴 칸과 제목·설명을 쓸 칸을 둡니다.
+
 `catalog.js`에서 학습 목표는 작품 항목의 `goal`, 활동 질문·핵심 가치·응답 형식은 `worksheetActivities`에서 편집합니다. 기본 PDF와 편집 화면은 같은 HTML 렌더러(`worksheet.js`)와 인쇄 스타일(`worksheet.css`)을 사용합니다. 상세 화면의 **HTML 학습지 열기**로 인쇄용 원본을 열 수 있습니다. Chrome이 설치된 환경에서 `python -m pip install -r tests/requirements.txt` 후 `python scripts/build_worksheets.py`를 실행하면 143편의 A4 PDF와 미리보기, 오프라인 다운로드 파일이 함께 갱신됩니다.

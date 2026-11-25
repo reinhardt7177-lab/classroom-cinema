@@ -312,8 +312,8 @@ function teacherNotes(film) {
     ['장면 해석 예시', film.example],
     ['활동 결과 확인', activity.check],
     ['수업 운영', film.grades.some((grade) => grade === '1' || grade === '2')
-      ? '예시를 읽어 주고, 학생이 그림·짧은 말·몸짓으로 설명할 수 있게 해 주세요.'
-      : '근거가 드러나는 응답을 함께 살펴보고, 같은 근거로도 가능한 다른 해석을 이야기해요.'],
+      ? '질문을 읽어 주세요. 글쓰기가 아직 어려운 학생은 빈칸에 그림이나 낱말로 답할 수 있어요.'
+      : '학생이 각자 장면을 골라 자기 생각을 쓰도록 해 주세요. 장면에 맞는 설명이라면 여러 해석을 인정해 주세요.'],
     ['시청과 상영', `${[platform.name, film.duration, film.rating].filter(Boolean).join(' · ')}. 수업 전 재생, 자막, 상영 조건을 확인하세요.`],
   ].filter(([, value]) => value);
 }
@@ -339,6 +339,7 @@ function renderPaper() {
     ${phases.map(([key, label]) => `
       <section class="paper-activity">
         <h3>${label}</h3>
+        ${key === 'after' && activity.reading ? `<aside class="ws-passage">${escapeHtml(activity.reading)}</aside>` : ''}
         <p>${escapeHtml(sheet[key])}</p>
       </section>`).join('')}
     <div class="teacher-notes">
@@ -369,7 +370,9 @@ function downloadMarkdown() {
     '## 배움 목표', '', sheet.goal, '',
   ];
   for (const [key, label] of phases) {
-    output.push(`## ${label}`, '', sheet[key], '');
+    output.push(`## ${label}`, '');
+    if (key === 'after' && activity.reading) output.push(activity.reading, '');
+    output.push(sheet[key], '');
     if (!teacher && key === 'after') {
       for (const field of activity.labels) output.push(`- ${field}  ________________________________________`, '');
       output.push(`스스로 확인 · ${activity.check}`, '');

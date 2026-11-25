@@ -30,8 +30,17 @@
 .ws-storyboard .ws-slots{grid-template-columns:repeat(3,minmax(0,1fr))}
 .ws-storyboard .ws-slot{border-top:5px double var(--ink);border-bottom:5px double var(--ink)}
 .ws-choice .ws-slot:last-child{border-left:4px solid var(--edge)}
+.ws-passage{margin:8px 0;padding:8px 12px;background:#f0f5f1;border-left:3px solid var(--edge);white-space:pre-line}
+.ws-comic4,.ws-sequel{--wash:#ffdfb9;--edge:#885b38}
+.ws-comic4 .ws-slot{border:2px solid var(--ink);min-height:100px}
+.ws-poster .ws-slot:first-child{grid-column:1/-1;min-height:130px;border:2px solid var(--edge)}
+.ws-poster .ws-slots{grid-template-rows:2fr 1fr}
+.ws-reading .ws-slot:last-child,.ws-sequel .ws-slot:last-child{grid-column:1/-1}
+.ws-reading .ws-slot,.ws-sequel .ws-slot{background:repeating-linear-gradient(to top,transparent 0 26px,#d6e1da 26px 27px)}
+.ws-reading .ws-slot b,.ws-sequel .ws-slot b{background:white}
 .ws-check{margin:13px 0 8px}.ws-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px dashed var(--edge);padding-top:6px;font-size:12px}
 @media screen{
+@container(max-width:480px){.ws-poster .ws-slots{grid-template-rows:auto}}
 @container(max-width:480px){.ws-pair,.ws .ws-slots{grid-template-columns:1fr}.ws .ws-slot{grid-area:auto;width:100%}.ws-still{padding:5px}.ws-heading{padding:9px}.ws-goal,.ws-check{display:block}.ws-project{padding:10px}.ws-name{justify-content:flex-start}}
 }
 @media print{

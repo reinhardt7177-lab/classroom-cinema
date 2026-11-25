@@ -1,6 +1,7 @@
 const sheetKinds = {
   compare: '두 생각 비교하기', storyboard: '장면 그리기', map: '관계 연결하기',
-  choice: '선택하고 말하기', design: '아이디어 설계하기', evidence: '단서 모으기'
+  choice: '고르고 이유 쓰기', design: '아이디어 그리기', evidence: '단서 모으기',
+  comic4: '네 컷 만화', reading: '읽고 쓰기', poster: '포스터 그리기', sequel: '뒷이야기 쓰기'
 };
 
 function sheetText(value) {
@@ -21,7 +22,7 @@ function studentSheet(film, edits = {}) {
     <div class="ws-goal"><b>배움 목표</b><p>${safe(edits.goal || film.goal)}</p></div>
     <div class="ws-pair">${phase('감상 전', edits.before || a.opening)}${phase('감상 중', edits.during || a.observe)}</div>
     <section class="ws-project"><div class="ws-project-head"><span>감상 후</span><b>${safe(sheetKinds[a.format])}</b></div>
-    <h2>${safe(a.output)}</h2><p>${safe(edits.after || a.create)}</p>
+    <h2>${safe(a.output)}</h2>${a.reading ? `<aside class="ws-passage" aria-label="읽을거리">${safe(a.reading)}</aside>` : ''}<p>${safe(edits.after || a.create)}</p>
     <div class="ws-slots">${a.labels.map((label,i) => `<div class="ws-slot"><b><em>${i+1}</em>${safe(label)}</b></div>`).join('')}</div></section>
     <div class="ws-check"><b>□ 스스로 확인</b><p>${safe(a.check)}</p></div>
     <footer class="ws-foot"><strong>${safe(a.value)}</strong><span>2022 개정 · ${safe(film.codes.join(' · '))}</span></footer></div>`;
