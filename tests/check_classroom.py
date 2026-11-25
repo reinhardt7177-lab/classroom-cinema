@@ -15,7 +15,7 @@ def check_materials(films, activities):
     source = (ASSETS / "worksheets/pdfs.js").read_text(encoding="utf-8")
     bundle = loads(source.removeprefix("globalThis.classroomWorksheetPdfs = ").strip().removesuffix(";"))
     ids = {film["id"] for film in films}
-    assert len(films) == len(ids) == 60
+    assert len(films) == len(ids) == 143
     assert ids == set(activities) == set(bundle)
     for film in films:
         key = film["id"]
@@ -43,12 +43,31 @@ def check_classroom():
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto((ROOT / "index.html").as_uri())
         cards = page.locator("#catalog .cover-button")
-        expect(cards).to_have_count(60)
+        expect(cards).to_have_count(143)
         films, activities = page.evaluate("[films, worksheetActivities]")
         check_materials(films, activities)
+        for grade, count in enumerate([12, 29, 54, 62, 41, 26], start=1):
+            page.locator(f'[data-grade="{grade}"]').click()
+            expected = {film["id"] for film in films if str(grade) in film["grades"]}
+            assert set(cards.evaluate_all("nodes => nodes.map(n => n.dataset.detail)")) == expected
+            assert sum(key.startswith("cinema-") for key in expected) == count
+        page.locator('[data-grade=""]').click()
+        for group in sorted({film["group"] for film in films}):
+            page.select_option("#group-filter", str(group))
+            expected = {film["id"] for film in films if film["group"] == group}
+            assert set(cards.evaluate_all("nodes => nodes.map(n => n.dataset.detail)")) == expected
+        page.select_option("#group-filter", "")
+        page.locator('[data-grade="5"]').click()
+        page.locator('#catalog .cover-button[data-detail="cinema-001"]').click()
+        detail = page.locator("#film-detail")
+        expect(detail.locator("#detail-title")).to_have_text("소나기")
+        expect(detail.locator("#detail-worksheet-heading")).to_have_text(activities["cinema-001"]["output"])
+        assert detail.locator(".worksheet-page img").evaluate("im => im.decode().then(() => im.naturalWidth > 0)")
+        with page.expect_download() as download:
+            detail.locator(".pdf-link").click()
+        assert download.value.path().read_bytes() == (ASSETS / "worksheets/cinema-001.pdf").read_bytes()
+        page.keyboard.press("Escape")
         page.locator('[data-grade="4"]').click()
-        expected = {film["id"] for film in films if "4" in film["grades"]}
-        assert set(cards.evaluate_all("nodes => nodes.map(n => n.dataset.detail)")) == expected
         page.locator('#catalog .cover-button[data-detail="our-world"]').click()
         detail = page.locator("#film-detail")
         expect(detail.locator("#detail-title")).to_have_text("우리들")
@@ -65,4 +84,4 @@ def check_classroom():
 
 if __name__ == "__main__":
     check_classroom()
-    print("Verified 60 worksheets, the grade filter, detail view, 200% layout and PDF download.")
+    print("Verified 143 worksheets, six grade filters, topic filters, detail view, 200% layout and PDF download.")

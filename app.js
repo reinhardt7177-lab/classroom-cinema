@@ -136,12 +136,12 @@ function renderCatalog() {
   const query = normalizeSearch(search);
   const results = films.filter((film) => {
     const subjects = film.codes.map((code) => standards[code].subject);
-    const keywords = [film.title, film.original, film.topic, film.description, film.education, film.gradeLabel, groups[film.group], ...subjects, ...film.codes];
+    const keywords = [film.title, film.original, film.source || '', film.topic, film.description, film.education, film.gradeLabel, groups[film.group], worksheetActivities[film.id].output, ...subjects, ...film.codes];
     return (!selectedGrade || film.grades.includes(selectedGrade))
       && (group === '' || film.group === Number(group))
       && (!platform || film.platform === platform)
       && (!subject || subjects.includes(subject))
-      && (!duration || (film.minutes !== null && (film.minutes <= 15 ? 'short' : 'long') === duration))
+      && (!duration || (film.minutes == null ? film.durationBand : film.minutes <= 15 ? 'short' : 'long') === duration)
       && (!query || normalizeSearch(keywords.join(' ')).includes(query));
   });
   for (const button of $('#grade-filters').children) {
