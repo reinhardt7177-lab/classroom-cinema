@@ -232,6 +232,7 @@ function openDetails(film) {
         </a>
         <div class="worksheet-actions">
           ${pdfLink(film)}
+          <a class="button secondary" href="worksheet.html?film=${encodeURIComponent(film.id)}" target="_blank" rel="noopener">HTML 학습지 열기</a>
           <button type="button" class="button secondary" data-worksheet="${film.id}">미리 보고 편집하기</button>
         </div>
       </aside>
@@ -324,11 +325,14 @@ function renderPaper() {
   const sheet = sheetContent();
   const teacher = paperMode === 'teacher';
   paper.classList.toggle('teacher-paper', teacher);
+  if (!teacher) {
+    paper.innerHTML = studentSheet(film, sheet);
+    return;
+  }
   paper.innerHTML = `
     <header class="paper-heading">
-      <p class="paper-type">${teacher ? '교사용 지도안' : '학생용 학습지'} <span>${escapeHtml(film.gradeLabel)} · ${standard.subject}</span></p>
-      <h2>${escapeHtml(teacher ? `${film.title} 수업 지도안` : sheet.title)}</h2>
-      ${teacher ? '' : '<p class="student-information">날짜 ______________ &nbsp;&nbsp; 반 ______ &nbsp;&nbsp; 이름 ______________</p>'}
+      <p class="paper-type">교사용 지도안 <span>${escapeHtml(film.gradeLabel)} · ${standard.subject}</span></p>
+      <h2>${escapeHtml(film.title + ' 수업 지도안')}</h2>
     </header>
     <p class="paper-focus"><strong>${escapeHtml(activity.output)}</strong> · ${escapeHtml(activity.value)}</p>
     <p class="paper-goal"><strong>배움 목표</strong> <span>${escapeHtml(sheet.goal)}</span></p>
@@ -336,20 +340,14 @@ function renderPaper() {
       <section class="paper-activity">
         <h3>${label}</h3>
         <p>${escapeHtml(sheet[key])}</p>
-        ${teacher ? '' : key === 'after' ? `
-          <div class="activity-layout ${activity.format}">
-            ${activity.labels.map((field) => `<div class="activity-slot">${escapeHtml(field)}</div>`).join('')}
-          </div>
-          <p class="activity-check"><strong>스스로 확인</strong> ${escapeHtml(activity.check)}</p>`
-          : `<div class="response-area ${key} ${film.grades.some((grade) => grade === '1' || grade === '2') ? 'draw' : ''}" aria-hidden="true"></div>`}
       </section>`).join('')}
-    ${teacher ? `<div class="teacher-notes">
+    <div class="teacher-notes">
       ${teacherNotes(film).map(([label, value]) => `<section><h3>${label}</h3><p>${escapeHtml(value)}</p></section>`).join('')}
       <p class="teacher-reminder">문항을 수정했다면 관찰 기준과 활동 결과 확인 질문도 함께 조정해 주세요.</p>
-    </div>` : ''}
+    </div>
     <footer class="paper-footer">
-      <p>${escapeHtml(film.title)} · ${film.codes.join(' · ')}${teacher ? ' · 2022 개정 교육과정' : ''}</p>
-      ${teacher ? `<p>${externalLink(curriculumSource, '교육과정 원문')} ${externalLink(filmUrl(film), '작품 공식 페이지')} ${platforms[film.platform].terms ? externalLink(platforms[film.platform].terms, '상영 조건') : ''}</p>` : ''}
+      <p>${escapeHtml(film.title)} · ${film.codes.join(' · ')} · 2022 개정 교육과정</p>
+      <p>${externalLink(curriculumSource, '교육과정 원문')} ${externalLink(filmUrl(film), '작품 공식 페이지')} ${platforms[film.platform].terms ? externalLink(platforms[film.platform].terms, '상영 조건') : ''}</p>
     </footer>`;
 }
 
