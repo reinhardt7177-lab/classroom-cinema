@@ -49,6 +49,31 @@ def check_classroom():
         expect(cards).to_have_count(143)
         films, activities = page.evaluate("[films, worksheetActivities]")
         check_materials(films, activities)
+        board = browser.new_page()
+        entries = []
+
+        def board_api(route):
+            if route.request.method == "POST":
+                entries.append({**route.request.post_data_json, "status": "접수됨"})
+                route.fulfill(status=201)
+            else:
+                route.fulfill(json=entries)
+
+        board.route("**/rest/v1/cinema_requests*", board_api)
+        board.goto((ROOT / "index.html").as_uri())
+        board.locator("#search").fill("우리 반 추천 영화")
+        board.get_by_text("이 영화 신청하기", exact=True).click()
+        expect(board.get_by_label("영화 제목")).to_have_value("우리 반 추천 영화")
+        board.get_by_label("추천 학년").select_option("4")
+        board.get_by_label("어떤 수업").fill("우정에 대해 이야기해요.")
+        board.get_by_role("button", name="공개 신청하기").click()
+        expect(board.locator("#requests li")).to_contain_text("초등 4학년 · 접수됨")
+        for width, height in [(1280, 720), (1024, 768), (768, 1024), (390, 844), (844, 390)]:
+            board.set_viewport_size({"width": width, "height": height})
+            for zoom in [1, 2]:
+                board.evaluate("z => document.documentElement.style.zoom = z", zoom)
+                assert board.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        board.close()
         assert activities["piper"]["format"] == "comic4" and len(activities["piper"]["labels"]) == 4
         assert "첫걸음" in activities["piper"]["output"]
         assert activities["walle"]["reading"] and "다짐" in activities["walle"]["labels"][-1]

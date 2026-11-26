@@ -364,3 +364,11 @@ body:has(dialog[open]) { overflow: hidden; }
   .teacher-paper { font-size: 10.5pt; }
   .paper-footer a { min-height: 20px; }
 }
+.board { max-width: 46rem; padding-block: 1rem 4rem; overflow-wrap: anywhere; }
+.board form, .board li { padding: clamp(.85rem, 3vw, 1.5rem); }
+.board form { display: grid; gap: .85rem; }
+.board .field, .board .field > * { min-width: 0; width: 100%; }
+.board .button { justify-self: start; min-height: 44px; }
+.board ul { list-style: none; padding: 0; display: grid; gap: .65rem; }
+.board li p { margin: .4rem 0 0; white-space: pre-wrap; }
+.results-row { flex-wrap: wrap; }

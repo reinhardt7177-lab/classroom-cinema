@@ -156,6 +156,7 @@ function renderCatalog() {
   $('#catalog').innerHTML = results.length ? shelves.join('') : `
     <div class="empty panel">
       <p>조건에 맞는 작품이 없어요.</p>
+      <a class="text-link" href="requests.html?title=${encodeURIComponent(search)}">이 영화 신청하기</a>
       <span>다른 학년을 고르거나 검색 조건을 초기화해 보세요.</span>
     </div>`;
   for (const track of document.querySelectorAll('.shelf-track')) {

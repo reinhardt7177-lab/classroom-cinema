@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>영화 신청 게시판 | 교실극장</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="requests.js"></script>
+</head>
+<body>
+  <main class="shell board">
+    <a class="text-link" href="./">← 교실극장 작품 둘러보기</a>
+    <h1>영화 신청 게시판</h1>
+    <form id="request-form" class="panel">
+      <label class="field">영화 제목<input name="title" maxlength="100" required></label>
+      <label class="field">추천 학년<select name="grade" required>
+        <option value="">선택해 주세요</option>
+        <option value="1">초등 1학년</option>
+        <option value="2">초등 2학년</option>
+        <option value="3">초등 3학년</option>
+        <option value="4">초등 4학년</option>
+        <option value="5">초등 5학년</option>
+        <option value="6">초등 6학년</option>
+      </select></label>
+      <label class="field">어떤 수업에 쓰고 싶으세요? (선택)<textarea name="suggestion" rows="3" maxlength="500"></textarea></label>
+      <p>신청 내용은 바로 공개돼요. 학생 이름이나 연락처는 적지 마세요.</p>
+      <button class="button primary" type="submit">공개 신청하기</button>
+    </form>
+    <p id="feedback" role="status"></p>
+    <h2>선생님들이 신청한 작품</h2>
+    <ul id="requests"></ul>
+    <p id="list-status" role="status"></p>
+    <button class="button secondary" id="more" type="button" hidden>더 보기</button>
+  </main>
+</body>
+</html>
