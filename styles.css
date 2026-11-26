@@ -371,4 +371,8 @@ body:has(dialog[open]) { overflow: hidden; }
 .board .button { justify-self: start; min-height: 44px; }
 .board ul { list-style: none; padding: 0; display: grid; gap: .65rem; }
 .board li p { margin: .4rem 0 0; white-space: pre-wrap; }
-.results-row { flex-wrap: wrap; }
+.results-row { flex-wrap: wrap; padding-block: .75rem; font-size: 1rem; }
+.results-row .board-link { margin-inline-start: auto; max-width: 100%; min-height: 52px; padding: .65rem 1.25rem; gap: .65rem; font-size: 1.25rem; font-weight: 800; overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .results-row .board-link { width: 100%; }
+}
