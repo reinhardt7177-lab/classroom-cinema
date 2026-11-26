@@ -43,7 +43,10 @@
       <section class="collection" aria-labelledby="catalog-heading">
         <div class="section-heading catalog-heading">
           <h2 id="catalog-heading">학년과 주제로 찾기</h2>
-          <div class="grade-filters" role="group" aria-label="추천 학년" id="grade-filters"></div>
+          <div class="grade-actions">
+            <div class="grade-filters" role="group" aria-label="추천 학년" id="grade-filters"></div>
+            <a class="button primary board-link" href="requests.html">영화 신청 게시판 <span aria-hidden="true">→</span></a>
+          </div>
           <a class="text-link" id="curriculum-link" target="_blank" rel="noopener noreferrer">교육과정 원문 <span aria-hidden="true">↗</span></a>
         </div>
         <div class="filter-fields">
@@ -58,7 +61,6 @@
         <div class="results-row">
           <p id="results-count" role="status"></p>
           <button id="clear-filters" type="button" class="quiet-button" hidden>초기화</button>
-          <a class="button primary board-link" href="requests.html">영화 신청 게시판 <span aria-hidden="true">→</span></a>
         </div>
         <div id="catalog"></div>
       </section>

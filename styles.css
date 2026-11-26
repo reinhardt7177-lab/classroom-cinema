@@ -96,7 +96,7 @@ img { display: block; max-width: 100%; }
 .subpage-count { margin-bottom: 14px; }
 .text-link { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--target); color: var(--accent); font-size: .9rem; font-weight: 700; text-underline-offset: 4px; overflow-wrap: anywhere; }
 .catalog-heading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-3) var(--space-5); }
-.catalog-heading .grade-filters { justify-self: start; }
+.grade-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-width: 0; }
 .grade-filters { display: flex; flex-wrap: wrap; gap: 2px; max-width: 100%; padding: 3px; border: 1px solid var(--line); border-radius: calc(var(--radius-control) + 4px); background: var(--surface); }
 .grade-filters button { min-height: var(--target); min-width: 54px; padding-inline: var(--space-2); border-radius: var(--radius-control); background: transparent; color: var(--muted); font-size: .95rem; font-weight: 750; }
 .grade-filters button:hover { background: var(--raised); }
@@ -299,7 +299,7 @@ body:has(dialog[open]) { overflow: hidden; }
   .filter-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .search-box { grid-column: 1 / -1; }
   .catalog-heading { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-2); }
-  .catalog-heading .grade-filters { grid-row: 2; grid-column: 1 / -1; }
+  .grade-actions { grid-row: 2; grid-column: 1 / -1; }
   #curriculum-link { grid-row: 1; grid-column: 2; }
 }
 @container theater (max-width: 790px) {
@@ -372,7 +372,7 @@ body:has(dialog[open]) { overflow: hidden; }
 .board ul { list-style: none; padding: 0; display: grid; gap: .65rem; }
 .board li p { margin: .4rem 0 0; white-space: pre-wrap; }
 .results-row { flex-wrap: wrap; padding-block: .75rem; font-size: 1rem; }
-.results-row .board-link { margin-inline-start: auto; max-width: 100%; min-height: 52px; padding: .65rem 1.25rem; gap: .65rem; font-size: 1.25rem; font-weight: 800; overflow-wrap: anywhere; }
-@media (max-width: 560px) {
-  .results-row .board-link { width: 100%; }
+.grade-actions .board-link { max-width: 100%; min-height: 52px; padding: .65rem 1.25rem; gap: .65rem; font-size: 1.25rem; font-weight: 800; overflow-wrap: anywhere; }
+@container theater (max-width: 620px) {
+  .grade-actions .board-link { width: 100%; }
 }
